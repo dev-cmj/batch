@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.project.batch.mapper.PersonMapper">
+
+    <select id="findByPaging" resultType="com.project.batch.model.Person">
+        SELECT
+            id, first_name, last_name
+        FROM
+            person
+        ORDER BY
+            id ASC
+        LIMIT #{_pagesize} OFFSET #{_skiprows}
+    </select>
+
+</mapper>

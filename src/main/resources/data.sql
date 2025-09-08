@@ -1,0 +1,12 @@
+INSERT INTO person (id, last_name, first_name) VALUES (1, 'Doe', 'John');
+INSERT INTO person (id, last_name, first_name) VALUES (2, 'Smith', 'Jane');
+INSERT INTO person (id, last_name, first_name) VALUES (3, 'Johnson', 'Peter');
+INSERT INTO person (id, last_name, first_name) VALUES (4, 'Williams', 'Mary');
+INSERT INTO person (id, last_name, first_name) VALUES (5, 'Brown', 'David');
+INSERT INTO person (id, last_name, first_name) VALUES (6, 'Jones', 'Linda');
+INSERT INTO person (id, last_name, first_name) VALUES (7, 'Garcia', 'James');
+INSERT INTO person (id, last_name, first_name) VALUES (8, 'Miller', 'Patricia');
+INSERT INTO person (id, last_name, first_name) VALUES (9, 'Davis', 'Robert');
+INSERT INTO person (id, last_name, first_name) VALUES (10, 'Rodriguez', 'Jennifer');
+INSERT INTO person (id, last_name, first_name) VALUES (11, 'Martinez', 'Michael');
+INSERT INTO person (id, last_name, first_name) VALUES (12, 'Hernandez', 'Elizabeth');
