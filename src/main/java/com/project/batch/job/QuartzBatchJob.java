@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
 public class QuartzBatchJob implements Job {
 
     private final JobLauncher jobLauncher;
-    private final org.springframework.batch.core.Job jdbcPagingJob;
+    private final org.springframework.batch.core.Job sequentialJob;
 
     @Override
     public void execute(JobExecutionContext context) throws JobExecutionException {
@@ -27,7 +27,7 @@ public class QuartzBatchJob implements Job {
                     .addLong("timestamp", System.currentTimeMillis())
                     .toJobParameters();
             
-            jobLauncher.run(jdbcPagingJob, jobParameters);
+            jobLauncher.run(sequentialJob, jobParameters);
             
             log.info("Quartz 배치 작업 완료: {}", context.getJobDetail().getKey());
         } catch (Exception e) {

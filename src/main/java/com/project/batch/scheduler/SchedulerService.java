@@ -95,8 +95,13 @@ public class SchedulerService {
     }
 
     private Trigger createSimpleTrigger(SchedulerVo scheduleInfo) {
+        Long repeatInterval = scheduleInfo.getRepeatInterval();
+        if (repeatInterval == null) {
+            throw new BatchException(BatchConstants.ErrorCodes.VALIDATION_ERROR,
+                "Repeat interval is required for simple trigger job: " + scheduleInfo.getJobName());
+        }
         return schedulerJobCreator.createSimpleTrigger(scheduleInfo.getTriggerName(),
-                Math.toIntExact(scheduleInfo.getRepeatInterval()), SimpleTrigger.MISFIRE_INSTRUCTION_FIRE_NOW);
+                Math.toIntExact(repeatInterval), SimpleTrigger.MISFIRE_INSTRUCTION_FIRE_NOW);
     }
 
     private void handleExistingJob(SchedulerVo scheduleInfo, JobDetail jobDetail, Trigger trigger) throws SchedulerException {
@@ -266,14 +271,14 @@ public class SchedulerService {
         }
         
         Trigger.TriggerState state = scheduler.getTriggerState(triggers.get(0).getKey());
-        
-        switch (state) {
-            case NORMAL: return "SCHEDULED";
-            case PAUSED: return "PAUSED";
-            case BLOCKED: return "BLOCKED";
-            case ERROR: return "ERROR";
-            case COMPLETE: return "COMPLETE";
-            default: return "UNKNOWN";
-        }
+
+        return switch (state) {
+            case NORMAL -> "SCHEDULED";
+            case PAUSED -> "PAUSED";
+            case BLOCKED -> "BLOCKED";
+            case ERROR -> "ERROR";
+            case COMPLETE -> "COMPLETE";
+            default -> "UNKNOWN";
+        };
     }
 }
