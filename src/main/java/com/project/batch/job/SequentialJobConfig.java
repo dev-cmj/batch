@@ -80,9 +80,6 @@ public class SequentialJobConfig {
     @Bean
     public ItemProcessor<Post, Post> postProcessor() {
         return post -> {
-            if (post == null) {
-                return null;
-            }
 
             Post processedPost = Post.builder()
                     .id(post.getId())

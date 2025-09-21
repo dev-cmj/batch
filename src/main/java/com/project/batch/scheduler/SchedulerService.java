@@ -272,13 +272,27 @@ public class SchedulerService {
         
         Trigger.TriggerState state = scheduler.getTriggerState(triggers.get(0).getKey());
 
-        return switch (state) {
-            case NORMAL -> "SCHEDULED";
-            case PAUSED -> "PAUSED";
-            case BLOCKED -> "BLOCKED";
-            case ERROR -> "ERROR";
-            case COMPLETE -> "COMPLETE";
-            default -> "UNKNOWN";
-        };
+                String status;
+        switch (state) {
+            case NORMAL:
+                status = "SCHEDULED";
+                break;
+            case PAUSED:
+                status = "PAUSED";
+                break;
+            case BLOCKED:
+                status = "BLOCKED";
+                break;
+            case ERROR:
+                status = "ERROR";
+                break;
+            case COMPLETE:
+                status = "COMPLETE";
+                break;
+            default:
+                status = "UNKNOWN";
+                break;
+        }
+        return status;
     }
 }

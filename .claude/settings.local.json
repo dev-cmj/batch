@@ -4,7 +4,11 @@
       "Bash(dir)",
       "Bash(./gradlew:*)",
       "Bash(tree:*)",
-      "Bash(rm:*)"
+      "Bash(rm:*)",
+      "Bash(netstat:*)",
+      "Bash(findstr:*)",
+      "Bash(taskkill:*)",
+      "Bash(Stop-Process -Id 13424 -Force)"
     ],
     "deny": [],
     "ask": []

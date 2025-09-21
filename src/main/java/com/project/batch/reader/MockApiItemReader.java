@@ -21,7 +21,7 @@ public class MockApiItemReader implements ItemReader<Post> {
     private int currentPage = 1;
     private final int pageSize = 10;
     private boolean allDataFetched = false;
-    private final int maxPages = 10; // 대용량 테스트를 위해 제한
+    private final int maxPages = 1000; // 10,000개 데이터 처리를 위해 1000페이지로 설정
 
     @Override
     public Post read() throws Exception {
