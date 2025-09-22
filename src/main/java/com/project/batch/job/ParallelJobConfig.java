@@ -52,7 +52,7 @@ public class ParallelJobConfig {
         return new StepBuilder("partitionedStep", jobRepository)
                 .partitioner("workerStep", partitioner())
                 .step(workerStep(jobRepository, transactionManager, partitionedMockApiItemReader))
-                .gridSize(4) // 4개의 파티션으로 분할
+                .gridSize(Runtime.getRuntime().availableProcessors()) // CPU 코어 수 기반 동적 파티션 분할
                 .taskExecutor(taskExecutor)
                 .build();
     }
@@ -65,7 +65,7 @@ public class ParallelJobConfig {
                           PlatformTransactionManager transactionManager,
                           PartitionedMockApiItemReader partitionedMockApiItemReader) {
         return new StepBuilder("workerStep", jobRepository)
-                .<Post, Post>chunk(5, transactionManager)
+                .<Post, Post>chunk(calculateOptimalChunkSize(), transactionManager)
                 .reader(partitionedMockApiItemReader)
                 .processor(partitionedPostProcessor())
                 .writer(partitionedPostWriter())
@@ -75,12 +75,17 @@ public class ParallelJobConfig {
     /**
      * 파티셔너 - 데이터를 범위별로 분할
      */
+    private int calculateOptimalChunkSize() {
+        int cores = Runtime.getRuntime().availableProcessors();
+        return Math.max(5, cores * 2);
+    }
+
     @Bean
     public Partitioner partitioner() {
         return gridSize -> {
             Map<String, ExecutionContext> partitionMap = new HashMap<>();
 
-            int totalPages = 1000; // maxPages (10,000 items / 10 per page)
+            int totalPages = 1000;
             int pagesPerPartition = (int) Math.ceil((double) totalPages / gridSize);
 
             for (int i = 0; i < gridSize; i++) {

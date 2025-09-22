@@ -14,11 +14,12 @@ public class TaskExecutorConfig {
     public TaskExecutor parallelTaskExecutor() {
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
 
-        // 기본 스레드 풀 크기
-        executor.setCorePoolSize(4);
+        // CPU 코어 수 기반 동적 스레드 풀 크기 설정
+        int cores = Runtime.getRuntime().availableProcessors();
+        executor.setCorePoolSize(cores);
 
-        // 최대 스레드 풀 크기
-        executor.setMaxPoolSize(8);
+        // 최대 스레드 풀 크기 (코어 수의 2배)
+        executor.setMaxPoolSize(cores * 2);
 
         // 큐 용량
         executor.setQueueCapacity(50);
@@ -45,9 +46,10 @@ public class TaskExecutorConfig {
     public TaskExecutor heavyTaskExecutor() {
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
 
-        // 대용량 처리를 위한 더 큰 스레드 풀
-        executor.setCorePoolSize(8);
-        executor.setMaxPoolSize(16);
+        // 대용량 처리를 위한 CPU 코어 기반 스레드 풀
+        int cores = Runtime.getRuntime().availableProcessors();
+        executor.setCorePoolSize(cores * 2);
+        executor.setMaxPoolSize(cores * 4);
         executor.setQueueCapacity(100);
         executor.setThreadNamePrefix("HeavyBatch-");
         executor.setWaitForTasksToCompleteOnShutdown(true);

@@ -31,6 +31,11 @@ public class SequentialJobConfig {
 
     private final MockApiItemReader mockApiItemReader;
 
+    private int calculateOptimalChunkSize() {
+        int cores = Runtime.getRuntime().availableProcessors();
+        return Math.max(5, cores * 2);
+    }
+
     /**
      * "sequentialJob"이라는 이름의 Batch Job을 생성합니다.
      *
@@ -62,7 +67,7 @@ public class SequentialJobConfig {
     @Bean
     public Step sequentialStep(JobRepository jobRepository, PlatformTransactionManager transactionManager) {
         return new StepBuilder("sequentialStep", jobRepository)
-                .<Post, Post>chunk(5, transactionManager)
+                .<Post, Post>chunk(calculateOptimalChunkSize(), transactionManager)
                 .reader(mockApiItemReader)
                 .processor(postProcessor())
                 .writer(postWriter())
